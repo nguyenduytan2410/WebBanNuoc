@@ -1,0 +1,80 @@
+﻿@model WebBanNuoc.Models.NuocNgot
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 style="font-weight:bold ;color :darkorchid; text-align:center">Thông Tin Sản Phẩm</h1>
+
+@*<fieldset>
+        <div class="display-label">
+            <strong>Mã Nước:</strong> @Model.MaNuocngot</div><br />
+        <div class="display-label"><strong>Nhà Sản Xuất:</strong> @Model.NhaXuatBan.TenNXB</div><br />
+        <div class="display-label"><strong>Tên Nước:</strong> @Model.TenNuoc</div><br />
+        <div class="display-label"><img src="@Model.Anhbia" style="width:25%;height:25%; object-fit:cover;" alt="Alternate Text" /> </div>
+        <div class="display-label"><strong>Giá Bán:</strong> @Model.GiaBan</div><br />
+        <div class="display-label"><strong>Mô Tả:</strong> @Model.Mota</div><br />
+        <div class="display-label"><strong>Ngày Cập Nhật:</strong> @Model.Ngaycapnhat</div><br />
+        <div class="display-label"><strong>Số Lượng Tồn:</strong> @Model.Soluongton</div><br />
+    </fieldset>
+
+*@
+
+<div class="flex-box">
+    <div class="left">
+        <div class="big-img">
+            <img src="@Model.Anhbia" alt="Alternate Text" />
+        </div>
+    </div>
+    <div class="right">
+        <div class="display-label" ; style="font-size: 22px; font-weight: 600; margin-top: 50px 0;"><strong>Tên Nước:</strong> @Model.TenNuoc</div>
+        <div class="ratings">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+        </div>
+        <div class="display-label" style=" font-size: 20px; font-weight: 500; margin: 20px 0;"><strong>Nhà Sản Xuất:</strong> @Model.NhaXuatBan.TenNXB</div>    
+        <div class="display-label" style=" font-size: 20px; font-weight: 500; margin: 20px 0;"><strong>Giá Bán:</strong> @Model.GiaBan</div>
+        <div class="display-label" style=" font-size: 20px; font-weight: 500; margin: 20px 0;"><strong>Mô Tả:</strong> @Model.Mota</div>
+        <div class="display-label" style=" font-size: 20px; font-weight: 500; margin: 20px 0;"><strong>Ngày Cập Nhật:</strong> @Model.Ngaycapnhat</div>
+        <div class="display-label"style=" font-size: 20px; font-weight: 500; margin: 20px 0;" ><strong>Số Lượng Tồn:</strong> @Model.Soluongton</div>
+    </div>
+</div>
+@using (Html.BeginForm())
+{
+    <p>
+        <button class="btn btn-default"> @Html.ActionLink("Trở Về", "IndexTC", "Home")</button>
+    </p>
+}
+<style>
+    .flex-box {
+        display: flex;
+        width: 1000px;
+        margin: 20px auto;
+    }
+
+    .left {
+        width: 40%;
+    }
+
+    .big-img {
+        width: 250px;
+    }
+
+        .big-img img {
+            width: inherit;
+        }
+    .ratings i {
+        color: rgb(255, 136, 0);
+    }
+   
+</style>
+<script>
+    let bigImg = document.querySelector('.big-img img');
+    function showImg(pic) {
+        bigImg.src = pic;
+    }
+</script>

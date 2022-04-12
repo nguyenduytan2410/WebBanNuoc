@@ -1,0 +1,215 @@
+﻿@model IEnumerable<WebBanNuoc.Models.NuocNgot>
+
+@{
+    ViewBag.Title = "SPTheoTH";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="slider">
+
+    <div class="aspect-ratio-169">
+        <img src="~/Content/images/milk.jpg" style="object-fit: cover;" alt="1">
+        <img src="~/Content/images/bannercoffee.jpg" style="object-fit: cover;" alt="2">
+        <img src="~/Content/images/cocacola2.jpg" style="object-fit: cover; " alt="3">
+        <img src="~/Content/images/wine-banner.png" style="object-fit: cover;" alt="4">
+        <img src="~/Content/images/Capture11111.jpg" style="object-fit: cover;" alt="5">
+    </div>
+    <div class="dot-container">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
+<h2 style="font-weight: bold; color: darkgoldenrod; text-align: center"> ĐẠI LÝ BÁN NƯỚC </h2>
+@*@using (Html.BeginForm("IndexTC", "Home", FormMethod.Get, new { @class = "form-inline" }))
+{
+    <div class="form-group form-inline" style="display: flex; align-items: center; ">
+        <i class="fa-solid fa-magnifying-glass" style="margin-right:10px"></i>
+        <input type="Text" style="margin-top: 10px; margin-bottom: 10px;" class="form-control col-md-10" value="@ViewBag.Keyword" name="searchString" placeholder="Nhập tên nước cần tìm">
+        <input type="submit" style="margin :10px;" class="btn btn-success" value="Tìm Nước">
+    </div>
+}*@
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-1g-4 col-md-4 col- sm-6 col-xs-12" style="width:25%;height:400px">
+            <div class="panel panel-default">
+                <div class="panel panel-heading" style="font-weight:bold">
+                    @item.TenNuoc
+                </div>
+                <div class="panel-body">
+                    <p><img src="@item.Anhbia" alt="hinh thumnail" style="width:35%;height:25%; object-fit:cover;"></p>
+                    <p>
+                        <strong>Giá: </strong>
+                        @if (item.GiaBan == item.giagiam)
+                        {
+                            <label> Giá : @item.giagiam VND</label>
+                        }
+                        else
+                        {
+                            <label style="text-decoration-line:line-through; color:dimgrey">@item.GiaBan VND</label>
+                            <label style="color :darkred">Giá giảm: @item.giagiam VND </label>
+                        }
+                    </p>
+                    <p><strong>Ngày cập nhật: </strong>@item.Ngaycapnhat</p>
+                    <p><strong>Số lượng tồn: </strong>@item.Soluongton</p>
+                </div>
+                <div class="panel-footer clearfix">
+                    <div class="pull-right">
+                        <div class="DatMua">
+                            <a class="btn btn-info" href="@Url.Action("Detail", "Nuoc", new { id = item.MaNuocngot })">
+                                Xem...
+                            </a>
+                            @if (item.Soluongton > 0)
+                            {
+                                <a class="btn btn-success"
+                                   href="@Url.Action("ThemGioHang", "GioHang", new { @id = item.MaNuocngot, @strURL = Request.Url.ToString() })">Đặt Mua</a>}
+                            else
+                            {
+                                <a class="btn btn-block btn-warning"
+                                   href="@Url.Action("ThemGioHang", "GioHang", new { @id = item.MaNuocngot, @strURL = Request.Url.ToString() })">Hết Hàng</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<style type="text/css">
+    #mau-nut a {
+        clear: both;
+        background-color: orange;
+        color: snow;
+    }
+
+        #mau-nut a:hover {
+            background-color: darkcyan;
+            color: snow;
+        }
+
+    .panel-default {
+        transition: 0.5s;
+    }
+
+        .panel-default:hover {
+            box-shadow: 5px 10px #BFC9D9;
+        }
+
+    .clearfix {
+        transition: 0.5s;
+        display: none;
+    }
+
+    .panel:hover {
+        transform: scale(1.1);
+    }
+
+        .panel:hover .clearfix {
+            display: block;
+        }
+
+    #slider {
+        padding-bottom: 30px;
+        border-bottom: 2px solid #000;
+        overflow: hidden;
+    }
+
+    .aspect-ratio-169 {
+        display: block;
+        position: relative;
+        margin-top: 20px;
+        padding-top: 26.25%;
+        transition: 0.3s;
+    }
+
+        .aspect-ratio-169 img {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            top: 0;
+            left: 0;
+        }
+
+    .dot-container {
+        position: relative;
+        height: 30px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .dot {
+        height: 15px;
+        width: 15px;
+        background-color: #ccc;
+        border-radius: 50%;
+        margin-right: 12px;
+        cursor: pointer;
+    }
+
+        .dot.active {
+            background-color: #333;
+        }
+</style>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var maxLength = 100;
+        $(".show-read-more").each(function () {
+            var myStr = $(this).text();
+            if ($.trim(myStr).length > maxLength) {
+                var newStr = myStr.substring(0, maxLength);
+                var removedStr = myStr.substring(maxLength, $.trim(myStr).length); $(this).empty().html(newStr);
+                $(this).append(' <a href="javascript:void(0);" class="read more">đọc tiếp...</a>');
+                $(this).append('<span class="more-text">' + removedStr + '</span>');
+            }
+        });
+        $(".read-more").click(function () {
+            $(this).siblings(".more-text").contents().unwrap();
+            $(this).remove();
+        });
+    });
+    const imgPosition = document.querySelectorAll(".aspect-ratio-169 img")
+    const imgContainer = document.querySelector('.aspect-ratio-169')
+    const dotItem = document.querySelectorAll(".dot")
+    let imgNumber = imgPosition.length
+    let index = 0
+    // console.log(imgPosition)
+    imgPosition.forEach(function (image, index) {
+        image.style.left = index * 100 + "%"
+        dotItem[index].addEventListener("click", function () { slider(index) })
+    })
+    function imgSlide() {
+        index++;
+        if (index >= imgNumber) { index = 0 }
+        slider(index)
+    }
+    function slider(index) {
+        imgContainer.style.left = "-" + index * 100 + "%"
+        const dotActive = document.querySelector('.active')
+        dotActive.classList.remove("active")
+        dotItem[index].classList.add("active")
+    }
+    setInterval(imgSlide, 5000)
+</script>
+<style>
+    .show-read-more .more-text {
+        display: none;
+    }
+
+    body {
+        padding-top: 50px;
+        padding-bottom: 20px;
+        background: rgb(2,0,36);
+        background: linear-gradient(135deg, rgba(2,0,36,1) 0%, rgba(28,212,228,0) 2%, rgba(0,212,255,1) 100%);
+    }
+</style>
+

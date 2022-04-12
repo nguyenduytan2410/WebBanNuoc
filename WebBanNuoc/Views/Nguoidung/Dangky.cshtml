@@ -1,0 +1,157 @@
+﻿@model WebBanNuoc.Models.KhachHang
+
+@{
+    ViewBag.Title = "Dangky";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row" style="margin-top:40px;">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+        
+                <h1 style="color: blueviolet; font-weight: bold; text-align: center ">Đăng Ký Người Dùng</h1>
+                <hr class="colorgraph" style="height: 5px; border-top: 0; background: #c4e17f; border-radius: 5px; background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4); background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4); background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4); background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);">
+                @*     <form method="POST" action="https://bootsnipp.com/register" accept-charset="UTF-8" role="form" class="form-signin">*@
+                @using (Html.BeginForm())
+                {
+        <fieldset>
+            <div class="form-group">
+                @Html.AntiForgeryToken()
+                @Html.EditorFor(model => model.HoTen, new { htmlAttributes = new { @class = "form-control", @placeholder = "Họ Tên" } })
+                @Html.ValidationMessageFor(model => model.HoTen, "", new { @class = "text-danger" })
+                @ViewData["NhapHoten"]
+            </div>
+
+
+            <div class="form-group">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email", @id = "Emaill", @onchange = "GmailCheck()" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                @ViewData["nhapEmail"]
+            </div>
+            <div class="col-md-10">
+                <p id="Statusmail" />
+            </div>
+            <script>
+        function GmailCheck() {
+                $("#Statusmail").html("Checking...");
+                $.post("@Url.Action("CheckEmail", "Home")",
+                    {
+                        userdata: $("#Emaill").val()
+                    },
+                    function (data) {
+                        if (data == 0) {
+                            $("#Statusmail").html('<font color = "Green"> Email có thể sử dụng.</font>');
+                            $("#Emaill").css("border-color", "Green");
+                        }
+                        else {
+                            $("#Statusmail").html('<font color = "Red"> Email đã tồn tại.</font>');
+                            $("#Emaill").css("border-color", "Red");
+
+                        }
+                    });
+            }
+            </script>
+
+            <div class="form-group">
+                @Html.EditorFor(model => model.TaiKhoan, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tài Khoản", @id = "Username", @onchange = "UserCheck()" } })
+                @Html.ValidationMessageFor(model => model.TaiKhoan, "", new { @class = "text-danger" })
+                @ViewData["NhapTK"]
+            </div>
+            <div class="col-md-10">
+                <p id="Status" />
+            </div>
+            <script>
+            function UserCheck() {
+                $("#Status").html("Checking...");
+                $.post("@Url.Action("CheckUsername","Home")",
+                    {
+                        userdata: $("#Username").val()
+                    },
+                    function (data) {
+                        if (data == 0) {
+                            $("#Status").html('<font color = "Green"> Tài khoản có thể sử dụng.</font>');
+                            $("#Username").css("border-color", "Green");
+                        }
+                        else {
+                            $("#Status").html('<font color = "Red"> Tài khoản tồn tại.</font>');
+                            $("#Username").css("border-color", "Red");
+
+                        }
+                    });
+            }
+            </script>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <input class="form-control text-box single-line input-validation-error"
+                               data-val="true" data-val-required="Phải nhập mật khẩu xác nhận!"
+                               id="MatKhau" name="MatKhau" type="password" value="" aria-describedby="MatKhau-error" aria-invalid="true" placeholder="Mật Khẩu">
+                        @ViewData["nhapMK"]
+                        @ViewData["dodaiMK"]
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <input class="form-control text-box single-line input-validation-error"
+                               data-val="true" data-val-required="Phải nhập mật khẩu xác nhận!"
+                               id="MatKhauXacNhan" name="MatKhauXacNhan" type="password" value="" aria-describedby="MatKhauXacNhan-error" aria-invalid="true" placeholder="Xác Nhận Mật Khẩu">
+                        @ViewData["NhapMKXN"]
+                        @ViewData["MatKhauGiongNhau"]
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Diachi, new { htmlAttributes = new { @class = "form-control", @placeholder = "Địa Chỉ" } })
+                @Html.ValidationMessageFor(model => model.Diachi, "", new { @class = "text-danger" })
+                @ViewData["nhapDC"]
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(model => model.DienThoai, new { htmlAttributes = new { @class = "form-control", @placeholder = "Số Điện Thoại", @id = "Phones" , @onchange = "PhoneCheck()" } })
+                @Html.ValidationMessageFor(model => model.DienThoai, "", new { @class = "text-danger" })
+                @ViewData["nhapDT"]
+            </div>
+            <div class="col-md-10">
+                <p id="Statusphone" />
+            </div>
+            <script>
+        function PhoneCheck() {
+                $("#Statusphone").html("Checking...");
+                $.post("@Url.Action("CheckPhone", "Home")",
+                    {
+                        userdata: $("#Phones").val()
+                    },
+                    function (data) {
+                        if (data == 0) {
+                            $("#Statusphone").html('<font color = "Green"> Số điện thoại có thể sử dụng.</font>');
+                            $("#Phones").css("border-color", "Green");
+                        }
+                        else {
+                            $("#Statusphone").html('<font color = "Red"> Số điện thoại đã tồn tại.</font>');
+                            $("#Phones").css("border-color", "Red");
+
+                        }
+                    });
+            }
+            </script>
+            <div class="form-group">
+                @Html.EditorFor(model => model.GioiTinh, new { htmlAttributes = new { @class = "form-control", @placeholder = "Giới Tính" } })
+                @Html.ValidationMessageFor(model => model.GioiTinh, "", new { @class = "text-danger" })
+                @ViewData["nhapGT"]
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(model => model.NgaySinh, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ngày Sinh" } })
+                @Html.ValidationMessageFor(model => model.NgaySinh, "", new { @class = "text-danger" })
+                @ViewData["nhapNS"]
+            </div>
+            <hr class="colorgraph" style="height: 5px; border-top: 0; background: #c4e17f; border-radius: 5px; background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4); background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4); background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4); background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);">
+            <div class="row">
+                <div class="col-xs-12 col-md-6"><input type="submit" value="Đăng Ký" class="btn btn-primary btn-block btn-lg" tabindex="7"></div>
+                <div class="col-xs-12 col-md-6"><p class="btn btn-success btn-block btn-lg"> @Html.ActionLink("Bạn Đã Có Tài Khoản ?", "DangNhap", "Nguoidung")</p>  </div>
+            </div>
+        </fieldset>
+                }                
+        
+        </div>
+    </div>
+</div>   
+           

@@ -1,0 +1,134 @@
+﻿@model WebBanNuoc.Models.NuocNgot
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 style="font-weight:bold; color: darkslateblue;text-align:center">Chỉnh Sửa Thông Tin Nước</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.MaNuocngot)
+    <div class="form-group">
+        <div class="col-md-10">
+            <strong>Tên Nước</strong>
+            @Html.EditorFor(model => model.TenNuoc, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.TenNuoc, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <strong>Giá Bán</strong>
+            @Html.EditorFor(model => model.GiaBan, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.GiaBan, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+       
+        <div class="col-md-10">
+            <strong>Giảm Giá</strong>
+            @Html.EditorFor(model => model.giamgia, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.giamgia, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <strong>Nhà Sản Xuất</strong>
+            @Html.EditorFor(model => model.MaNXB, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.MaNXB, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <strong>Mô Tả</strong>
+            @Html.EditorFor(model => model.Mota, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Mota, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <strong>Hình</strong>
+            <div style="display :none;">
+                @Html.EditorFor(model => model.Anhbia, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Anhbia, "", new { @class = "text-danger" })
+            </div>
+            <input type="file" name="fileUpload" id="fileUpload" accept="image/*"
+                   style="display:none;" />
+            <input type="button" id="btnUpload" value="Chọn" class="btn btn-success" />
+            <img src="@Model.Anhbia" style="width:25%;height:25%; object-fit:cover;" id="pictureUpload" />
+        </div>
+    </div>
+    @section upload
+{
+        <script>
+            $(function () {
+                $('#btnUpload').click(function () {
+                    $('#fileUpload').trigger('click');
+                });
+            });
+            $('#fileUpload').change(function () {
+                if (window.FormData !== undefined) {
+                    var fileUpload = $('#fileUpload').get(0);
+                    var files = fileUpload.files;
+                    var formData = new FormData();
+                    formData.append('file', files[0]);
+                    $.ajax(
+                        {
+                            type: 'POST',
+                            url: '/Nuoc/ProcessUpload',
+                            contentType: false,
+                            processData: false,
+                            data: formData,
+                            success: function (urlImage) {
+                                $('#pictureUpload').attr('src', urlImage);
+                                $('#Anhbia').val(urlImage);
+                            },
+                            error: function (err) {
+                                alert('Error ', err.statusText);
+                            }
+                        });
+                }
+            });
+        </script>
+    }
+    <div class="form-group">
+        <div class="col-md-10">
+            <strong>Ngày Cập Nhật</strong>
+            @Html.EditorFor(model => model.Ngaycapnhat, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Ngaycapnhat, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <strong>Số Lượng Tồn</strong>
+            @Html.EditorFor(model => model.Soluongton, new { htmlAttributes = new { @class = "form-control" , min = "1" } })
+            @Html.ValidationMessageFor(model => model.Soluongton, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <strong>Mã Chủ Đề</strong>
+            @Html.EditorFor(model => model.MaChuDe, new { htmlAttributes = new { @class = "form-control", min = "1" } })
+            @Html.ValidationMessageFor(model => model.MaChuDe, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Lưu" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+<div>
+    <button class="btn btn-default"> @Html.ActionLink("Trở Về", "ListNuoc")</button>
+</div>

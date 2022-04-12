@@ -1,0 +1,85 @@
+﻿@model WebBanNuoc.Models.NuocNgot
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="font-weight:bold; color:red;text-align:center"> Bạn Muốn Xóa Sản Phẩm Này ? </h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên Nước
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenNuoc)
+        </dd>
+
+        <dt>
+            Giá Bán
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GiaBan)
+        </dd>
+        <dt>
+          Loại Nước
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ChuDe.TenChuDe)
+        </dd>
+
+        <dt>
+            Nhà Sản Xuất
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NhaXuatBan.TenNXB)
+        </dd>
+
+        <dt>
+           Mô Tả
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mota)
+        </dd>
+        <dd>
+            <div style="display :none;">
+                @Html.DisplayFor(model => model.Anhbia)
+            </div>
+            <div><img src="@Model.Anhbia" style="width:25%;height:25%; object-fit:cover;" alt="Alternate Text" /></div>
+        </dd>
+
+        <dt>
+            Ngày Cập Nhật
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ngaycapnhat)
+        </dd>
+
+        <dt>
+            Số Lượng Tồn
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Soluongton)
+        </dd>
+
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-danger" /> | 
+            <button class="btn btn-default"> @Html.ActionLink("Trở Về", "ListNuoc") </button>
+        </div>
+    }
+</div>

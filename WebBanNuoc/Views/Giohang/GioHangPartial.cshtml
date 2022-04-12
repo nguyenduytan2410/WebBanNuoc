@@ -1,0 +1,18 @@
+﻿@*<a class="getstarted scrollto active" href="@Url.Action("Giohang","GioHang")" style="font-weight:bold; text-decoration:none;">
+        Giỏ hàng (@ViewBag.Tongsoluongsanpham)
+    </a>
+*@
+@using WebBanNuoc.Models
+@{
+    List<Giohang> lstGiohang = Session["Giohang"] as List<Giohang>;
+
+}
+
+
+<a class="getstarted scrollto active" href="@Url.Action("Giohang", "GioHang")" style="font-weight:bold;text-decoration:none">
+
+
+    @if (Session["Giohang"] != null)
+    {
+    <span>(@lstGiohang.Count())   </span>  }                    
+    </a>

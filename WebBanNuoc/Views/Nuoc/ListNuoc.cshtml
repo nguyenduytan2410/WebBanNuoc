@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebBanNuoc.Models.NuocNgot>
+@{
+    ViewBag.Title = "ListNuoc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 style="font-weight: bold; color: orange; text-align: center">DANH SÁCH SẢN PHẨM</h1>
+
+@using (Html.BeginForm("ListNuoc", "Nuoc", FormMethod.Get, new { @class = "form-inline" }))
+{
+<div class="form-group form-inline" style="display: flex; align-items: center; ">
+    <i class="fa-solid fa-magnifying-glass" style="margin-right: 10px; color: black"></i>
+    <input type="Text" style="margin-top: 10px; margin-bottom: 10px;" class="form-control col-md-10" value="@ViewBag.Keyword" name="searchString" placeholder="Nhập tên nước cần tìm">
+    <input type="submit" style="margin :10px;" class="btn btn-success" value="Tìm nước">
+    <p style="margin-bottom:0px">
+        <button class="btn btn-success"> @Html.ActionLink("Tạo Sản Phẩm Mới", "Create")</button>
+    </p>
+</div>
+}
+<table class="table">
+    <tr>
+        <th> Nhà Xuất Bản </th>
+        <th style="width:90px"> Tên Nước</th>
+        <th style="width:100px"> Hình </th>
+        <th> Giá bán</th>
+        <th style="width:70px"> Mô Tả</th>
+        <th style="width:120px"> Ngày cập nhật </th>
+        <th style="width:105px"> Số lượng tồn</th>
+        <th style="width:250px"></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr >
+            <td>@Html.DisplayFor(modelItem => item.NhaXuatBan.TenNXB)</td>
+            <td>@Html.DisplayFor(modelItem => item.TenNuoc)</td>
+            <td style="width:25%" ;>
+                <img src="@item.Anhbia" style="width:30%;height:30%; object-fit:cover;" alt="hinh thumbnail" />
+            </td>
+            <td>@Html.DisplayFor(modelItem => item.giagiam)</td>
+            <td>@Html.DisplayFor(modelItem => item.Mota)</td>
+            <td>@Html.DisplayFor(modelItem => item.Ngaycapnhat)</td>
+            <td>@Html.DisplayFor(modelItem => item.Soluongton)</td>
+            <td>
+                <button class="btn btn-success"> @Html.ActionLink("Thông Tin", "Detail", new { id = item.MaNuocngot })</button>
+                | <button class="btn btn-warning">
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.MaNuocngot })
+                </button>
+                |
+                <button class="btn btn-danger"> @Html.ActionLink("Xóa", "Delete", new { id = item.MaNuocngot }) </button>
+            </td>
+        </tr>
+    }
+</table>

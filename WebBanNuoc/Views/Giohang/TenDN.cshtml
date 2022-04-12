@@ -1,0 +1,7 @@
+﻿@using WebBanNuoc.Models
+@{
+    KhachHang kh = (KhachHang)Session["TaiKhoan"];
+}
+<a class="getstarted scrollto active" href="@Url.Action("profile","Nguoidung",new {@id = kh.MaKH })" style="font-weight:bold;text-decoration:none">
+    @kh.HoTen
+</a>
